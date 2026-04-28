@@ -24,7 +24,8 @@ The official project accompanies the Depth Pro paper. It provides:
 
 - The official repository states that its released model is a retrained reference implementation and may not exactly match the reported paper model.
 - The official implementation has its own license terms.
-- This repository does not copy the official source code or weights.
+- This repository copies the official source code snapshot for study and extension.
+- This repository does not redistribute pretrained weights; use the official checkpoint download flow and follow upstream license terms.
 
 ## My Additions in This Repository
 
@@ -33,4 +34,4 @@ The official project accompanies the Depth Pro paper. It provides:
 - Boundary and focal-length evaluation plan.
 - Comparison plan against other SOTA monocular depth systems.
 - Validation script for experiment manifests.
-
+- Preserved upstream README as `UPSTREAM_README.md` so my README can focus on what changed.
