@@ -1,82 +1,97 @@
 # Depth Pro Research
 
-A focused research and evaluation wrapper around Apple's Depth Pro for sharp zero-shot metric monocular depth estimation.
+This repository is my research-oriented copy of Apple's **Depth Pro** project, extended for spatial intelligence and monocular metric depth study.
 
-Official upstream:
+Upstream:
 
 - Paper: [Depth Pro: Sharp Monocular Metric Depth in Less Than a Second](https://arxiv.org/abs/2410.02073)
 - Apple research page: [machinelearning.apple.com/research/depth-pro](https://machinelearning.apple.com/research/depth-pro)
-- Official code: [apple/ml-depth-pro](https://github.com/apple/ml-depth-pro)
+- Official repository: [apple/ml-depth-pro](https://github.com/apple/ml-depth-pro)
+- Upstream snapshot used here: `apple/ml-depth-pro` commit `9efe5c1`
 
-## What I Changed
+## What I Added
 
-This repository is not a mirror of the official Apple implementation. Instead, it adds a research-oriented layer around the original project:
+The original Depth Pro repository provides the model implementation, setup flow, inference API, pretrained checkpoint script, and boundary metric utilities. On top of that, I added:
 
-- Reframed Depth Pro from a spatial intelligence perspective.
-- Added a reproducible evaluation manifest format for future experiments.
-- Added boundary-quality and focal-length analysis notes.
-- Added a comparison plan against Depth Anything V2, UniDepth, Metric3D, and Marigold.
-- Added lightweight validation scripts so experiment metadata stays clean.
-- Separated official baseline notes from my own planned extensions.
+- `docs/official-baseline.md`: a compact summary of the official implementation and what belongs to upstream.
+- `notes/boundary-and-focal-length.md`: my notes on why boundary quality and focal length prediction matter for spatial intelligence.
+- `notes/comparison-plan.md`: a comparison plan against Depth Anything V2, UniDepth, Metric3D, Marigold, and GeoWizard.
+- `configs/eval_manifest.example.json`: a small manifest format for tracking evaluation images and outputs.
+- `scripts/validate_manifest.py`: a validation script to keep evaluation metadata clean.
+- `UPSTREAM_README.md`: the original upstream README preserved for reference.
 
-## Why Depth Pro
+## Why This Project
 
-Depth Pro is useful for spatial intelligence because it predicts metric depth from a single RGB image without requiring camera intrinsics. This matters for real-world images where the camera model is unknown, missing, or unreliable.
+Depth Pro is especially relevant to spatial intelligence because it predicts **metric depth** from a single RGB image without requiring known camera intrinsics. This makes it useful for real-world images where camera metadata is missing, noisy, or unavailable.
 
-Key capabilities to study:
+My focus in this copy is not only to run the model, but to study:
 
-- Zero-shot metric depth in meters.
-- High-resolution depth maps with sharp boundaries.
-- Focal length prediction from a single image.
-- Boundary-aware evaluation metrics.
-- Fast inference relative to many high-quality dense prediction systems.
-
-## Research Questions
-
-| Question | Why It Matters |
-| --- | --- |
-| How reliable is metric scale without known intrinsics? | Affects robotics, AR, reconstruction, and measurement |
-| Where does Depth Pro beat relative-depth foundation models? | Separates metric value from visual plausibility |
-| How sharp are object boundaries and thin structures? | Important for scene parsing and 3D reconstruction |
-| How does focal length prediction behave on web images? | Tests robustness under unknown cameras |
-| What failure cases appear in indoor, outdoor, and in-the-wild images? | Guides future project improvements |
+- when metric depth is reliable without camera intrinsics;
+- how sharp the predicted depth boundaries are;
+- how focal length prediction behaves on unknown-camera images;
+- where Depth Pro differs from Depth Anything V2, UniDepth, Metric3D, and diffusion-based geometry models;
+- how monocular depth can support 3D reconstruction, AR, robotics, and scene understanding.
 
 ## Repository Structure
 
 ```text
 .
-├── README.md
-├── configs/
-│   └── eval_manifest.example.json
-├── docs/
-│   └── official-baseline.md
-├── notes/
-│   ├── boundary-and-focal-length.md
-│   └── comparison-plan.md
-├── scripts/
-│   └── validate_manifest.py
-└── LICENSE
+├── src/depth_pro/                 # Upstream Depth Pro package
+├── eval/                          # Upstream evaluation utilities
+├── data/                          # Upstream example assets
+├── configs/                       # My evaluation manifest template
+├── docs/                          # My baseline documentation
+├── notes/                         # My research notes
+├── scripts/                       # My lightweight validation scripts
+├── UPSTREAM_README.md             # Original upstream README
+├── pyproject.toml                 # Upstream package config
+└── get_pretrained_models.sh       # Upstream checkpoint download script
 ```
 
-## Planned Workflow
+## Getting Started
 
-1. Install the official `apple/ml-depth-pro` implementation in a separate environment.
-2. Select a small but diverse image set: indoor, outdoor, fine structures, unknown-camera web images.
-3. Run Depth Pro and store output metadata using `configs/eval_manifest.example.json` as the template.
-4. Compare against Depth Anything V2, UniDepth, Metric3D, and Marigold.
-5. Summarize strengths, failures, and use-case recommendations.
+The upstream setup is preserved. In short:
+
+```bash
+conda create -n depth-pro -y python=3.9
+conda activate depth-pro
+pip install -e .
+source get_pretrained_models.sh
+```
+
+Run a single-image prediction:
+
+```bash
+depth-pro-run -i ./data/example.jpg
+```
+
+For complete official instructions, see [UPSTREAM_README.md](UPSTREAM_README.md).
+
+## Validate My Evaluation Manifest
+
+```bash
+python3 scripts/validate_manifest.py
+```
+
+Expected output:
+
+```text
+Validated 2 image entries.
+```
 
 ## Current Status
 
+- Upstream code copied: done
+- Upstream README preserved: done
 - Research framing: done
-- Official baseline summary: done
 - Evaluation manifest: done
-- Metadata validation script: done
-- Model execution scripts: planned
-- Qualitative gallery: planned
+- Metadata validation: done
+- Local model execution: planned
+- Qualitative comparison gallery: planned
 - Cross-model benchmark: planned
 
-## Disclaimer
+## License and Attribution
 
-This repository is an independent research wrapper. It does not redistribute Depth Pro source code, pretrained weights, or Apple-owned assets. Please follow the official repository and license terms when using the upstream model.
+The upstream Depth Pro code and model terms are governed by Apple's original license in [LICENSE](LICENSE). This repository preserves upstream attribution and includes my additional research notes and evaluation scaffolding.
 
+This is an independent research copy and is not affiliated with Apple.
