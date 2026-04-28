@@ -1,0 +1,35 @@
+{
+  "project": "depth-pro-research",
+  "version": "0.1.0",
+  "model": {
+    "name": "Depth Pro",
+    "upstream_repository": "https://github.com/apple/ml-depth-pro",
+    "paper": "https://arxiv.org/abs/2410.02073"
+  },
+  "images": [
+    {
+      "id": "indoor_001",
+      "path": "images/indoor_001.jpg",
+      "source": "local test image",
+      "license": "user-provided",
+      "bucket": "indoor",
+      "has_exif_focal_length": false,
+      "notes": "Room scene with furniture and object boundaries."
+    },
+    {
+      "id": "fine_boundary_001",
+      "path": "images/fine_boundary_001.jpg",
+      "source": "local test image",
+      "license": "user-provided",
+      "bucket": "fine-boundary",
+      "has_exif_focal_length": false,
+      "notes": "Scene with railings, plants, or thin structures."
+    }
+  ],
+  "outputs": {
+    "depth_dir": "outputs/depth",
+    "preview_dir": "outputs/previews",
+    "metadata_path": "outputs/metadata.json"
+  }
+}
+
